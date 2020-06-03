@@ -13,3 +13,5 @@ result/
 model/
 logs/
 .dfc/
+
+.DS_Store

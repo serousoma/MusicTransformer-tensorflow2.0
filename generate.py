@@ -17,6 +17,7 @@ parser.add_argument('--load_path', default="result/dec0722", help='모델 로드
 parser.add_argument('--mode', default='dec')
 parser.add_argument('--beam', default=None, type=int)
 parser.add_argument('--length', default=2048, type=int)
+parser.add_argument('--inputs')
 parser.add_argument('--save_path', default='bin/generated.mid', type=str)
 
 
@@ -50,7 +51,7 @@ else:
     print(">> generate with decoder wise... beam size is {}".format(beam))
     mt = MusicTransformerDecoder(loader_path=load_path)
 
-inputs = encode_midi('dataset/midi/BENABD10.mid')
+inputs = encode_midi(args.inputs)
 
 
 with gen_summary_writer.as_default():

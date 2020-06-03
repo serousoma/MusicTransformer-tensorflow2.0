@@ -2,33 +2,28 @@ import pickle
 import os
 import re
 import sys
+from tqdm import tqdm
 import hashlib
 from progress.bar import Bar
 import tensorflow as tf
 import utils
 import params as par
-from midi_processor.processor import encode_midi, decode_midi
+from midi_processor.processor import encode_midi
 from midi_processor import processor
 import config
 import random
 
 
 def preprocess_midi(path):
-    return encode_midi(path, augumentation=False)
-#     note_seq = NoteSeq.from_midi_file(path)
-#     note_seq.adjust_time(-note_seq.notes[0].start)
-#     event_seq = EventSeq.from_note_seq(note_seq)
-#     control_seq = ControlSeq.from_event_seq(event_seq)
-#     return event_seq.to_array(), control_seq.to_compressed_array()
-
+    return encode_midi(path)
 
 def preprocess_midi_files_under(midi_root, save_dir):
     midi_paths = list(utils.find_files_by_extensions(midi_root, ['.mid', '.midi']))
     os.makedirs(save_dir, exist_ok=True)
     out_fmt = '{}-{}.data'
 
-    for path in Bar('Processing').iter(midi_paths):
-        print(' ', end='[{}]'.format(path), flush=True)
+    for path in tqdm(midi_paths, desc='MIDI Paths in {}'.format(midi_root)):
+        # print(' ', end='[{}]'.format(path), flush=True)
 
         try:
             data = preprocess_midi(path)

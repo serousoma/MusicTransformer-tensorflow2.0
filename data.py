@@ -7,12 +7,13 @@ import params as par
 
 
 class Data:
-    def __init__(self, dir_path):
+    def __init__(self, dir_path, splits=[0.8, 0.9]):
         self.files = list(utils.find_files_by_extensions(dir_path, ['.pickle']))
+        # print(self.files)
         self.file_dict = {
-            'train': self.files[:int(len(self.files) * 0.8)],
-            'eval': self.files[int(len(self.files) * 0.8): int(len(self.files) * 0.9)],
-            'test': self.files[int(len(self.files) * 0.9):],
+            'train': self.files[:int(len(self.files) * splits[0])],
+            'eval': self.files[int(len(self.files) * splits[0]): int(len(self.files) * splits[1])],
+            'test': self.files[int(len(self.files) * splits[1]):],
         }
         self._seq_file_name_idx = 0
         self._seq_idx = 0
@@ -22,7 +23,6 @@ class Data:
         return '<class Data has "'+str(len(self.files))+'" files>'
 
     def batch(self, batch_size, length, mode='train'):
-
         batch_files = random.sample(self.file_dict[mode], k=batch_size)
 
         batch_data = [
