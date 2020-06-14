@@ -15,8 +15,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 tf.executing_eagerly()
 
 def train(input_path, save_path, l_r=None, batch_size=2,
-          pickle_dir=None, max_seq=1024, epochs=100, is_reuse=False,
-          load_path=None, multi_gpu=True, num_layer=6, log_dir='/pfs/out/logs'):
+          max_seq=1024, epochs=100,
+          load_path=None, num_layer=6, log_dir='/pfs/out/logs'):
     # load data
     dataset = Data(input_path)
     print('dataset', dataset)
@@ -101,14 +101,11 @@ if __name__ == "__main__":
 
     parser.add_argument('--l_r', default=None, type=float)
     parser.add_argument('--batch_size', default=2, help='batch size', type=int)
-    parser.add_argument('--pickle_dir', default='/pfs/out/pickle')
     parser.add_argument('--max_seq', default=1024, type=int)
     parser.add_argument('--epochs', default=100, type=int)
     parser.add_argument('--load_path', default=None, type=str)
     parser.add_argument('--input_path')
     parser.add_argument('--save_path', default="/pfs/out")
-    parser.add_argument('--is_reuse', default=False)
-    parser.add_argument('--multi_gpu', default=True)
     parser.add_argument('--num_layers', default=6, type=int)
 
     args = parser.parse_args()
@@ -118,13 +115,10 @@ if __name__ == "__main__":
     # set arguments
     l_r = args.l_r
     batch_size = args.batch_size
-    pickle_dir = args.pickle_dir
     max_seq = args.max_seq
     epochs = args.epochs
-    is_reuse = args.is_reuse
     load_path = args.load_path
     save_path = args.save_path
-    multi_gpu = args.multi_gpu
     num_layer = args.num_layers
     input_path = args.input_path
-    train(input_path, save_path, l_r, batch_size, pickle_dir, max_seq, epochs, is_reuse, load_path, multi_gpu, num_layer)
+    train(input_path, save_path, l_r, batch_size, max_seq, epochs, load_path, num_layer)
